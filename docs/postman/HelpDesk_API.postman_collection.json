@@ -1,0 +1,181 @@
+{
+  "info": {
+    "name": "HelpDesk API",
+    "_postman_id": "b964ca0f-2e7d-4e4c-bb8e-b08f0a9eb6a8",
+    "description": "HelpDesk API endpoints for companies, users, tickets, services, notifications, dashboard, and reports.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000/api" },
+    { "key": "token", "value": "" },
+    { "key": "ticket_id", "value": "1" },
+    { "key": "service_request_id", "value": "1" },
+    { "key": "notification_id", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "List Companies",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/companies"
+          }
+        },
+        {
+          "name": "Create Company",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Ltd\",\n  \"contact_person\": \"Jane Doe\",\n  \"phone\": \"+90-555-111-2233\",\n  \"email\": \"ops@acme.test\",\n  \"address\": \"Istanbul\"\n}"
+            },
+            "url": "{{base_url}}/companies"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "List Tickets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/tickets"
+          }
+        },
+        {
+          "name": "Create Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"company_id\": 1,\n  \"category\": \"software\",\n  \"title\": \"ERP login issue\",\n  \"description\": \"Users cannot login after password reset\",\n  \"priority\": \"high\"\n}"
+            },
+            "url": "{{base_url}}/tickets"
+          }
+        },
+        {
+          "name": "Convert Ticket To Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"address\": \"Pendik Sanayi Mahallesi No:12\",\n  \"service_type\": \"hardware\"\n}"
+            },
+            "url": "{{base_url}}/tickets/{{ticket_id}}/convert-to-service"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service Requests",
+      "item": [
+        {
+          "name": "List Service Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/service-requests"
+          }
+        },
+        {
+          "name": "Create Service Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"company_id\": 1,\n  \"service_type\": \"maintenance\",\n  \"description\": \"Quarterly firewall maintenance\",\n  \"address\": \"Ankara HQ\"\n}"
+            },
+            "url": "{{base_url}}/service-requests"
+          }
+        },
+        {
+          "name": "Create Service Report For Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"work_summary\": \"Firewall policy updated and tested\",\n  \"parts_used\": \"CAT6 cable\",\n  \"total_minutes\": 90\n}"
+            },
+            "url": "{{base_url}}/service-requests/{{service_request_id}}/report"
+          }
+        },
+        {
+          "name": "Get Service Report PDF",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/service-requests/{{service_request_id}}/pdf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard & Activity",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/dashboard"
+          }
+        },
+        {
+          "name": "Activity Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/activities"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "List Notifications",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/notifications"
+          }
+        },
+        {
+          "name": "Mark Notification As Read",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/notifications/{{notification_id}}/read"
+          }
+        }
+      ]
+    }
+  ]
+}
